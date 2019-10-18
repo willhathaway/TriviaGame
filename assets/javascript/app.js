@@ -130,6 +130,10 @@ function timeConverter(t) {
 
 $(document).on('click', '#submit', function () {
 
+    // a variable for storing the number of correct guesses:
+
+    correct = 0;
+
     // a variable for storing the number of checked answers:
 
     checked = 0
@@ -142,7 +146,7 @@ $(document).on('click', '#submit', function () {
 
     // checks how many answers have been checked:
 
-    for (let c in answersObject){
+    for (let c in answersObject) {
         if (answersObject[c].checked === true){
             checked++;
         }
@@ -152,7 +156,13 @@ $(document).on('click', '#submit', function () {
 
     if (checked === questions.length){
         
-        
+        for (let c in answersObject) {
+            if ((answersObject[c].checked === true) && (answersObject[c].value === 'true')){
+                correct++;
+            }
+        }
+
+        console.log('correct guesses: ' + correct + ' out of ' + questions.length);
 
     }
 
