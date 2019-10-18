@@ -1,13 +1,24 @@
-let time = 0;
-//let questions = document.getElementById('#questions');
+let time = 30;
+
 let questions;
 
+let clockRunning = false;
+
+let intervalId;
+
+
 $(document).on('click', '#startGame', function () {
+
+
+        $('#startGame').hide();
 
         // Timer:
 
         console.log('click');
-        setInterval(count, 1000);
+
+        if (!clockRunning) {
+        intervalId = setInterval(count, 1000);
+        }
 
         // Questions:
 
@@ -51,8 +62,6 @@ $(document).on('click', '#startGame', function () {
 
         for (let i = 0; i < questions.length; i++) {
 
-
-
             console.log(questions[i].question); // returns the question
 
             trueAnswer = (questions[i].trueAnswer);
@@ -74,11 +83,9 @@ $(document).on('click', '#startGame', function () {
 
                 if (questions[i].answers[a] === trueAnswer) {
                     value = 'true';
-                }
-                else if (questions[i].answers[a] !== trueAnswer) {
+                } else if (questions[i].answers[a] !== trueAnswer) {
                     value = 'false';
-                }
-                else{
+                } else {
                     console.log('error');
                 }
 
@@ -96,11 +103,16 @@ $(document).on('click', '#startGame', function () {
 
 function count() {
 
-    time++;
+    time--;
 
     let currentTime = timeConverter(time);
 
     $('#timer').text(currentTime);
+
+    if (time === 0) {
+        alert("time's up");
+        location.reload();
+    }
 
 }
 
@@ -130,6 +142,8 @@ function timeConverter(t) {
 
 $(document).on('click', '#submit', function () {
 
+    clearInterval(intervalId);
+
     // a variable for storing the number of correct guesses:
 
     correct = 0;
@@ -147,28 +161,32 @@ $(document).on('click', '#submit', function () {
     // checks how many answers have been checked:
 
     for (let c in answersObject) {
-        if (answersObject[c].checked === true){
+        if (answersObject[c].checked === true) {
             checked++;
         }
     }
 
     // checks whether all the questions have an answer:
 
-    if (checked === questions.length){
-        
+    if (checked === questions.length) {
+
         for (let c in answersObject) {
-            if ((answersObject[c].checked === true) && (answersObject[c].value === 'true')){
+            if ((answersObject[c].checked === true) && (answersObject[c].value === 'true')) {
                 correct++;
             }
         }
 
         console.log('correct guesses: ' + correct + ' out of ' + questions.length);
 
+        $('#result').html('correct guesses: ' + correct + ' out of ' + questions.length);
+
+    } else if (checked < questions.length) {
+        alert('please answer all questions before submitting')
     }
 
-    
 
-   
+
+
 
 });
 
@@ -180,32 +198,32 @@ $(document).on('click', '#submit', function () {
 // Taken from https://www.dyn-web.com/tutorials/forms/radio/onclick.php:
 
 //$(document).ready(function () {
-    // get list of radio buttons with name 'answer'
-    // let question1 = document.forms['question1'].elements[3].value
-    // let question2 = document.forms['question2'].elements[3].value;
-    // let question3 = document.forms['question3'].elements[3].value;
+// get list of radio buttons with name 'answer'
+// let question1 = document.forms['question1'].elements[3].value
+// let question2 = document.forms['question2'].elements[3].value;
+// let question3 = document.forms['question3'].elements[3].value;
 
 
-    /* WHen the user clicks a radio button, check to see if it is right or wrong. If it it correct, increase a "correct" count by 1 else do nothing
+/* WHen the user clicks a radio button, check to see if it is right or wrong. If it it correct, increase a "correct" count by 1 else do nothing
 
-    let questionList = [{question: "Whats my name", answers:["one","two","three"], correct: "one", selected:"two"}]
-    OnSubmit. questions.forEach(question => {
-        if(questions[question].correct === questions[question].selected){
-            console.log("GOt it")
-        }
-    })
-    */
+let questionList = [{question: "Whats my name", answers:["one","two","three"], correct: "one", selected:"two"}]
+OnSubmit. questions.forEach(question => {
+    if(questions[question].correct === questions[question].selected){
+        console.log("GOt it")
+    }
+})
+*/
 
-    
-    // loop through list
-    // for (let i = 0; i < question1.length; i++) {
-    //     question1[i].onclick = function () { // assign onclick handler function to each
-    //         // put clicked radio button's value in total field
-    //         if (this.value === true) {
-    //             console.log('yes');
-    //         };
-    //     };
-    // }
+
+// loop through list
+// for (let i = 0; i < question1.length; i++) {
+//     question1[i].onclick = function () { // assign onclick handler function to each
+//         // put clicked radio button's value in total field
+//         if (this.value === true) {
+//             console.log('yes');
+//         };
+//     };
+// }
 
 //})
 
