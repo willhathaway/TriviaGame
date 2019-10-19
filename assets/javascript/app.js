@@ -1,31 +1,41 @@
-let time = 30;
 
-let questions;
+// setting time to count down from 30:
+
+let time = 30;
 
 let clockRunning = false;
 
 let intervalId;
 
+// defining variable for the questions array to be accessed universally:
+
+let questions;
+
+
+// on click function, runs when the 'startGame' button is clicked
 
 $(document).on('click', '#startGame', function () {
 
+    // hides the start game button so it cannot be clicked twice:
 
         $('#startGame').hide();
 
-        // Timer:
+        // checks that the on click event is successful:
 
         console.log('click');
+
+        // timer starts:
 
         if (!clockRunning) {
         intervalId = setInterval(count, 1000);
         }
 
-        // Questions:
+        // questions div and submit button display in the html:
 
         $('#questions').show();
         $('#submit').show();
 
-        // Questions object:
+        // Questions array, containing question objects:
 
         questions = [
             question1 = {
@@ -58,24 +68,25 @@ $(document).on('click', '#startGame', function () {
 
         ]
 
-        // Adding the questions and answers to HTML file:
+        // adding the questions and answers to HTML file:
 
         for (let i = 0; i < questions.length; i++) {
 
             console.log(questions[i].question); // returns the question
 
             trueAnswer = (questions[i].trueAnswer);
-            console.log('true answer: ' + trueAnswer);
+
+            console.log('true answer: ' + trueAnswer); // logs the correct answer
 
             let questionHTML = $("<h3>");
 
             $(questionHTML).text(questions[i].question);
             $('#questions').append(questionHTML);
-            let newForm = $('<form id = ' + questions[i] + '>');
+            let newForm = $('<form class= "questionForm" id = ' + questions[i] + '>');
 
             for (let a = 0; a < (questions[i].answers).length; a++) {
 
-                console.log(questions[i].answers[a]); // returns the answers
+                console.log(questions[i].answers[a]); // logs the answers
 
                 // if statement checks whether to asign 'true' or 'false' to the html element:
 
@@ -89,7 +100,7 @@ $(document).on('click', '#startGame', function () {
                     console.log('error');
                 }
 
-                let answersHTML = $('<input type="radio" name="answer" class= "answer" value=' + value + '><p>');
+                let answersHTML = $('<input type="radio" name="answer" class= "answer" value=' + value + '><p class= "answer">');
                 $(answersHTML).html(questions[i].answers[a]);
                 $(newForm).append(answersHTML);
                 $('#questions').append(newForm);
@@ -101,6 +112,8 @@ $(document).on('click', '#startGame', function () {
 
 );
 
+// timer counts down from 30, converting to mm:ss and alerting the user when they run out of time:
+
 function count() {
 
     time--;
@@ -110,18 +123,18 @@ function count() {
     $('#timer').text(currentTime);
 
     if (time === 0) {
-        alert("time's up");
+        alert("Time's up!");
         location.reload();
     }
 
 }
 
 
-// Taken from stopwatch activity:
+// taken from stopwatch activity:
 
 function timeConverter(t) {
 
-    //  Takes the current time in seconds and convert it to minutes and seconds (mm:ss):
+    //  takes the current time in seconds and convert it to minutes and seconds (mm:ss):
 
     let minutes = Math.floor(t / 60);
     let seconds = t - (minutes * 60);
@@ -140,9 +153,10 @@ function timeConverter(t) {
 }
 
 
-$(document).on('click', '#submit', function () {
+// function called when the submit button is clicked. this function checks whether all the questions have been guessed at,
+// and how many of the guesses were correct:
 
-    clearInterval(intervalId);
+$(document).on('click', '#submit', function () {
 
     // a variable for storing the number of correct guesses:
 
@@ -169,64 +183,17 @@ $(document).on('click', '#submit', function () {
     // checks whether all the questions have an answer:
 
     if (checked === questions.length) {
-
+        clearInterval(intervalId);
         for (let c in answersObject) {
             if ((answersObject[c].checked === true) && (answersObject[c].value === 'true')) {
                 correct++;
             }
         }
 
-        console.log('correct guesses: ' + correct + ' out of ' + questions.length);
-
         $('#result').html('correct guesses: ' + correct + ' out of ' + questions.length);
 
     } else if (checked < questions.length) {
-        alert('please answer all questions before submitting')
+        alert('Please answer all questions before submitting')
     }
-
-
-
-
 
 });
-
-
-
-
-
-
-// Taken from https://www.dyn-web.com/tutorials/forms/radio/onclick.php:
-
-//$(document).ready(function () {
-// get list of radio buttons with name 'answer'
-// let question1 = document.forms['question1'].elements[3].value
-// let question2 = document.forms['question2'].elements[3].value;
-// let question3 = document.forms['question3'].elements[3].value;
-
-
-/* WHen the user clicks a radio button, check to see if it is right or wrong. If it it correct, increase a "correct" count by 1 else do nothing
-
-let questionList = [{question: "Whats my name", answers:["one","two","three"], correct: "one", selected:"two"}]
-OnSubmit. questions.forEach(question => {
-    if(questions[question].correct === questions[question].selected){
-        console.log("GOt it")
-    }
-})
-*/
-
-
-// loop through list
-// for (let i = 0; i < question1.length; i++) {
-//     question1[i].onclick = function () { // assign onclick handler function to each
-//         // put clicked radio button's value in total field
-//         if (this.value === true) {
-//             console.log('yes');
-//         };
-//     };
-// }
-
-//})
-
-
-// TODO: Use objects instead of hardcoded HTML to generate/print questions DONE
-// TODO: The above, inside submit onclick
