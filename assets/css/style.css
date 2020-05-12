@@ -27,24 +27,28 @@ body {
     display: none;
 }
 
+/* div containing timer */
 #timer {
     font-size: 20px;
     margin: 10px;
     padding: 10px;
 }
 
+/* submit button div */
 #submit {
     margin: 10px;
     padding: 10px;
     display: none;
 }
 
+/* game result displayed div */
 #result {
     background-color: lightcyan;
     margin: 10px;
     padding: 10px;
 }
 
+/* form styles */
 .questionForm {
     background-color: rgb(164, 216, 216);
     border-style: solid;
