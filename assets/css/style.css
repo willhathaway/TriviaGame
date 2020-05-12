@@ -1,11 +1,13 @@
 @import url("https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap");
 
+/* styles for background. local image used as background */
 body {
     background-image: url("../images/escher-background.jpg");
     float: left;
     background-color: black;
    }
 
+/* container */
 .container {
     font-family: 'Josefin Sans', sans-serif;
     background-color: black;
@@ -13,12 +15,14 @@ body {
     padding: 10px;
 }
 
+/* jumbotron contains all functional components on the page */
 .jumbotron {
     background: lightcyan;
     margin: 10px 10px 0px 10px !important;
     padding: 10px !important;
 }
 
+/* questions div */
 #questions {
     display: none;
 }
