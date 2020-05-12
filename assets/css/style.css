@@ -65,3 +65,10 @@ h3 {
     margin:5px;
     padding: 5px;
 }
+
+@media all and (max-width: 400px) {
+    .container {
+        width: 100vw;
+        margin: 10px 0 0 0;
+    }
+}
